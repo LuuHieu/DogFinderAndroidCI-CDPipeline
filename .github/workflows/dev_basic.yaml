@@ -21,6 +21,24 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      - name: CodeAnalysis via detekt
+        run: ./gradlew detekt
+
+      - name: Upload detekt results
+        uses: actions/upload-artifact@v2
+        with:
+          name: detekt_results
+          path: app/build/reports/detekt
+
+      - name: CodeAnalysis via checkstyle
+        run: ./gradlew checkstyle
+
+      - name: Upload checkstyle results
+        uses: actions/upload-artifact@v2
+        with:
+          name: checkstyle-results
+          path: app/build/reports/checkstyle
+      
       - name: Check lint
         if: always()
         run: ./gradlew lint
