@@ -48,16 +48,45 @@ jobs:
         # run: ./gradlew testDebugUnitTest
         run: ./gradlew jacocoTestReportDebug
 
-      - name: Generate AAR and APK files
-        if: always()
-        run: ./gradlew assembleDebug
+      - name: Build with Gradle
+        id: build
+        run: ./gradlew build
 
-      - name: Upload AAR files
-        if: always()
+      - name: Unit tests
+        id: tests
+        run: ./gradlew test
+
+      - name: Build Release AAB
+        id: buildRelease
+        run: ./gradlew bundleRelease
+
+      - name: Sign AAB
+        id: sign
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/bundle/release
+          signingKeyBase64: ${{ secrets.COOLTOOL_SIGNING_KEY }}
+          alias: ${{ secrets.COOLTOOL_ALIAS }}
+          keyStorePassword: ${{ secrets.COOLTOOL_KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.COOLTOOL_KEY_PASSWORD }}
+
+      - name: Upload AAB
+        id: uploadArtifact
         uses: actions/upload-artifact@v2
         with:
-          name: artifacts.zip
-          path: |
-            app/build/outputs/apk/debug/app-debug.apk
-            dog_network/build/outputs/aar
+            name: app
+            path: app/build/outputs/bundle/release/app-release.aab
+
+      # - name: Generate AAR and APK files
+      #   if: always()
+      #   run: ./gradlew assembleDebug
+
+      # - name: Upload AAR files
+      #   if: always()
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: artifacts.zip
+      #     path: |
+      #       app/build/outputs/apk/debug/app-debug.apk
+      #       dog_network/build/outputs/aar
           
