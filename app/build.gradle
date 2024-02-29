@@ -10,7 +10,7 @@ android {
         applicationId "work.curioustools.dogfinder"
         minSdk 21
         targetSdk 33
-        versionCode 6
+        versionCode 7
         versionName "2.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
