@@ -77,6 +77,21 @@ jobs:
             name: app
             path: app/build/outputs/bundle/release/app-release.aab
 
+      - name: Create service_account.json
+        id: createServiceAccount
+        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
+
+      - name: Deploy to Play Store (ALPHA)
+        id: deploy
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: service_account.json
+          packageName: work.curioustools.dogfinder
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          track: alpha
+          whatsNewDirectory: whatsnew/
+
+          
       # - name: Generate AAR and APK files
       #   if: always()
       #   run: ./gradlew assembleDebug
