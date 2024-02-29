@@ -89,7 +89,7 @@ jobs:
           packageName: work.curioustools.dogfinder
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: alpha
-          whatsNewDirectory: whatsnew/
+          whatsNewDirectory: distribution/whatsnew
 
           
       # - name: Generate AAR and APK files
