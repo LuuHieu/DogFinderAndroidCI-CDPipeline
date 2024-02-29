@@ -1,4 +1,4 @@
-name: task - validate commit on develop
+name: CI/CD develop
 on:
   push:
     branches: [ develop ]
